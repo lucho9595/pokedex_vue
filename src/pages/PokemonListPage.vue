@@ -1,23 +1,29 @@
 <template>
   <div>
-    <input type="text" placeholder="Search" v-model="searchQuery">
-    
+    <input type="text" placeholder="Search" />
+  </div>
+  <div>
     <ul>
-      <li v-for="pokemon in filteredPokemonList" :key="pokemon.name">{{ pokemon.name }}</li>
+      <li v-for="pokemon in pokemonList" :key="pokemon.name">
+        {{ pokemon.name }}
+      </li>
     </ul>
+  </div>
+  <div>
+    <button>All</button>
+    <button>Favourites</button>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import pokemonList from '../components/pokemonApi';
+import { getData } from "@/api/pokeapi";
+import { ref, onMounted } from "vue";
 
-const searchQuery = ref(''); // Variable reactiva para la consulta de búsqueda
+// Define una referencia reactiva para almacenar la lista de nombres de Pokémon
+const pokemonList = ref([]);
 
-// Filtra la lista de Pokémon según la consulta de búsqueda
-const filteredPokemonList = computed(() => {
-  return pokemonList.filter(pokemon => {
-    return pokemon.name.toLowerCase().includes(searchQuery.value.toLowerCase());
-  });
+// Llama a la función para obtener la lista de nombres de Pokémon al montar el componente
+onMounted(async () => {
+  pokemonList.value = await getData();
 });
 </script>
