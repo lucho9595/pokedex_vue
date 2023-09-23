@@ -1,10 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "./index";
+import route from "./routes/route";
 
 const app = createApp(App);
 
 // Usa el enrutador Vue
-app.use(router);
+app.use(route);
 
-app.mount('#app');
+app.mount("#app");

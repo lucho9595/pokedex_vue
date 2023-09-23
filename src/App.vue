@@ -1,10 +1,9 @@
 <template>
-  <LandingPage />
+  <router-view />
 </template>
 
 <script setup>
-import LandingPage from "./pages/LandingPage.vue";
-
+// No es necesario importar ningún componente aquí.
 </script>
 
 <style>
