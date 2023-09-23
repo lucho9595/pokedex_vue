@@ -10,10 +10,12 @@
       </li>
     </ul>
     <div class="buttons-container">
+      <i class="bi bi-list-ul"></i>
       <button class="btn text-white" :class="{ 'active': selectedTab === 'all' }" @click="selectTab('all')"
         :style="{ backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF' }">
         All
       </button>
+      <i class="bi bi-star-fill"></i>
       <button class="btn text-white" :class="{ 'active': selectedTab === 'favorites' }" @click="selectTab('favorites')"
         :style="{ backgroundColor: selectedTab === 'favorites' ? '#F22539' : '#BFBFBF' }">
         Favorites
