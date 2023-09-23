@@ -49,6 +49,11 @@
   border-radius: 60px;
   gap: 10px;
   background-color: #F22539;
-  color: white;
+  color: #FFFFFF;
+}
+
+.btn:hover {
+  background-color: #C00E20;
+  color: #FFFFFF;
 }
 </style>
