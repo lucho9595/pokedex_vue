@@ -14,13 +14,11 @@
         {{ pokemonData.types.map((type) => type.type.name).join(", ") }}
       </p>
       <div class="pokemon-footer">
-        <button class="share-button">Share</button>
-        <div class="pokemon-footer">
-          <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
-            alt="Add to Favorites" />
-          <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
-            alt="Remove from Favorites" />
-        </div>
+        <button class="share-button" @click="copyTextToClipboard(textToCopy)">Share</button>
+        <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
+          alt="Add to Favorites" />
+        <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
+          alt="Remove from Favorites" />
       </div>
     </div>
   </div>
@@ -33,14 +31,13 @@ import { useStore } from 'vuex';
 
 const props = defineProps({ pokemonSelect: String });
 const instance = getCurrentInstance();
-
 const pokemonData = ref(null);
+const store = useStore();
 
 const closePopup = () => {
   instance.emit("close");
 };
 
-const store = useStore();
 
 const isFavorite = (pokemon) => {
   const favoritePokemon = computed(() => store.getters.getFavoritePokemon);
@@ -55,6 +52,21 @@ const changeFavorite = (pokemon) => {
   }
 };
 
+const textToCopy = computed(() => {
+  return `${pokemonData.value.name}, Height: ${pokemonData.value.height}, Weight: ${pokemonData.value.weight}, Types: ${pokemonData.value.types.map(type => type.type.name).join(', ')}`;
+});
+
+const copyTextToClipboard = (text) => {
+  const tempInput = document.createElement('textarea');
+  tempInput.value = text;
+  document.body.appendChild(tempInput);
+
+  tempInput.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempInput);
+
+  alert('Texto copiado al portapapeles');
+};
 
 onMounted(async () => {
   pokemonData.value = await getName(props.pokemonSelect);
@@ -107,7 +119,8 @@ onMounted(async () => {
   z-index: 3;
 }
 
-.star{
-  width: 50px;;
+.star {
+  width: 50px;
+  ;
 }
 </style>
