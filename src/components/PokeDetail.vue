@@ -3,12 +3,8 @@
     <div class="pokemon-info" v-if="pokemonData">
       <button class="close-button" @click="closePopup">Cerrar</button>
       <div class="pokemon-image">
-        <img
-          :src="
-            pokemonData.sprites['other']['official-artwork']['front_default']
-          "
-          :alt="pokemonData.name"
-        />
+        <img :src="pokemonData.sprites['other']['official-artwork']['front_default']
+          " :alt="pokemonData.name" />
       </div>
       <p><strong>Name:</strong>{{ pokemonData.name }}</p>
       <p><strong>Height:</strong> {{ pokemonData.height }}</p>
@@ -19,15 +15,21 @@
       </p>
       <div class="pokemon-footer">
         <button class="share-button">Share</button>
-        <button class="favorite-button">Favorite</button>
+        <div class="pokemon-footer">
+          <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
+            alt="Add to Favorites" />
+          <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
+            alt="Remove from Favorites" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance, computed } from "vue";
 import { getName } from "@/api/pokeapi";
+import { useStore } from 'vuex';
 
 const props = defineProps({ pokemonSelect: String });
 const instance = getCurrentInstance();
@@ -37,6 +39,22 @@ const pokemonData = ref(null);
 const closePopup = () => {
   instance.emit("close");
 };
+
+const store = useStore();
+
+const isFavorite = (pokemon) => {
+  const favoritePokemon = computed(() => store.getters.getFavoritePokemon);
+  return favoritePokemon.value.some((p) => p.name === pokemon.name);
+};
+
+const changeFavorite = (pokemon) => {
+  if (!isFavorite(pokemon)) {
+    store.dispatch('addPokemonToFavorites', pokemon);
+  } else {
+    store.dispatch('removePokemonFromFavorites', pokemon);
+  }
+};
+
 
 onMounted(async () => {
   pokemonData.value = await getName(props.pokemonSelect);
@@ -87,5 +105,9 @@ onMounted(async () => {
   cursor: pointer;
   font-weight: bold;
   z-index: 3;
+}
+
+.star{
+  width: 50px;;
 }
 </style>
