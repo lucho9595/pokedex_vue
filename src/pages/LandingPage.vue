@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="../assets/landingpage.png" alt="logo.png" class="logo">
+    <img src="../assets/landingpage.png" alt="logo.png" class="logo" />
     <h1 class="title">Welcome to Pokédex</h1>
     <p class="subtitle">
       The digital encyclopedia created by Professor Oak is an invaluable tool to
@@ -14,7 +14,7 @@
 
 <style scoped>
 .title {
-  font-family: 'Secular One', sans-serif;
+  font-family: "Secular One", sans-serif;
   color: #353535;
   font-size: 26px;
   font-weight: 700;
@@ -24,8 +24,8 @@
 }
 
 .subtitle {
-  font-family: 'Secular One', sans-serif;
-  color: #5E5E5E;
+  font-family: "Secular One", sans-serif;
+  color: #5e5e5e;
   font-size: 18px;
   font-weight: 500;
   line-height: 27px;
@@ -48,12 +48,12 @@
   padding: 11px, 20px, 11px, 20px;
   border-radius: 60px;
   gap: 10px;
-  background-color: #F22539;
-  color: #FFFFFF;
+  background-color: #f22539;
+  color: #ffffff;
 }
 
 .btn:hover {
-  background-color: #C00E20;
-  color: #FFFFFF;
+  background-color: #c00e20;
+  color: #ffffff;
 }
 </style>

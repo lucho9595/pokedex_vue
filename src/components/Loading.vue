@@ -1,19 +1,19 @@
 <template>
-    <img src="../assets/loading.png" alt="loading">
+  <img src="../assets/loading.png" alt="loading" />
 </template>
 
 <style scoped>
 img {
-    animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
