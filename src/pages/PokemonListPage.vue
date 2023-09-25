@@ -128,14 +128,11 @@ onMounted(async () => {
   const allPokemon = await getData();
   pokemonList.value = allPokemon;
 
-  // Verifica si la pestaña actual es "Favorites"
-  if (selectedTab.value === 'favorites') {
-    // Filtra la lista de Pokémon para mostrar solo los favoritos
+if (selectedTab.value === 'favorites') {
     filteredPokemonList.value = allPokemon.filter((pokemon) =>
       isFavorite(pokemon)
     );
   } else {
-    // Muestra todos los Pokémon
     filteredPokemonList.value = allPokemon;
   }
 });

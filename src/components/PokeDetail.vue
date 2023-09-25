@@ -38,12 +38,12 @@ const closePopup = () => {
   instance.emit("close");
 };
 
-
+//verificar los cambios en el estado de favoritos
 const isFavorite = (pokemon) => {
   const favoritePokemon = computed(() => store.getters.getFavoritePokemon);
   return favoritePokemon.value.some((p) => p.name === pokemon.name);
 };
-
+//logica para almacenar favoritos
 const changeFavorite = (pokemon) => {
   if (!isFavorite(pokemon)) {
     store.dispatch('addPokemonToFavorites', pokemon);
@@ -51,11 +51,11 @@ const changeFavorite = (pokemon) => {
     store.dispatch('removePokemonFromFavorites', pokemon);
   }
 };
-
+//guardar en un componente la info
 const textToCopy = computed(() => {
   return `${pokemonData.value.name}, Height: ${pokemonData.value.height}, Weight: ${pokemonData.value.weight}, Types: ${pokemonData.value.types.map(type => type.type.name).join(', ')}`;
 });
-
+//logica para copiado de texto
 const copyTextToClipboard = (text) => {
   const tempInput = document.createElement('textarea');
   tempInput.value = text;
@@ -67,7 +67,7 @@ const copyTextToClipboard = (text) => {
 
   alert('Texto copiado al portapapeles');
 };
-
+//montar el detalle
 onMounted(async () => {
   pokemonData.value = await getName(props.pokemonSelect);
 });
