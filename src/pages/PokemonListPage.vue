@@ -41,6 +41,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { getData } from "@/api/pokeapi";
 import { ref, onMounted, computed, watch } from "vue";
@@ -135,7 +136,8 @@ onMounted(async () => {
   min-height: 100vh;
   padding: 20px;
   text-align: center;
-  width: 70vw;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 /*--input--*/
@@ -146,7 +148,9 @@ onMounted(async () => {
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 0.1px 3px rgba(0, 0, 0, 0.1);
-  width: 60%;
+  width: 100%;
+  max-width: 600px;
+  height: 50px;
 }
 
 .form-control {
@@ -173,8 +177,8 @@ input.form-control:focus {
 .pokemon-list {
   list-style: none;
   padding: 0;
-  width: 60%;
-  width: 70vw;
+  width: 100%;
+  max-width: 600px;
 }
 
 .pokemon-item {
@@ -203,7 +207,7 @@ input.form-control:focus {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   background-color: white;
   padding: 10px;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -233,7 +237,7 @@ input.form-control:focus {
   border-radius: 20px;
   margin: 0px 10px;
   width: 100%;
-  max-width: 300px;
+  max-width: 285px;
   text-align: center;
   align-items: center;
   justify-content: center;
