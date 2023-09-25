@@ -1,24 +1,31 @@
 <template>
   <div class="pokemon-detail">
     <div class="pokemon-info" v-if="pokemonData">
-      <button class="close-button" @click="closePopup">Cerrar</button>
+      <i class="bi bi-x-circle-fill close-button text-white bi-ul" @click="closePopup"></i>
       <div class="pokemon-image">
-        <img :src="pokemonData.sprites['other']['official-artwork']['front_default']
+        <img class="poke" :src="pokemonData.sprites['other']['official-artwork']['front_default']
           " :alt="pokemonData.name" />
       </div>
-      <p><strong>Name:</strong>{{ pokemonData.name }}</p>
-      <p><strong>Height:</strong> {{ pokemonData.height }}</p>
-      <p><strong>Weight:</strong> {{ pokemonData.weight }}</p>
-      <p>
-        <strong>Types:</strong>
-        {{ pokemonData.types.map((type) => type.type.name).join(", ") }}
-      </p>
-      <div class="pokemon-footer">
-        <button class="share-button" @click="copyTextToClipboard(textToCopy)">Share</button>
-        <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
-          alt="Add to Favorites" />
-        <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
-          alt="Remove from Favorites" />
+      <div class="poke-contain">
+        <p><strong>Name:</strong> {{ pokemonData.name }}</p>
+        <hr />
+        <p><strong>Height:</strong> {{ pokemonData.height }}</p>
+        <hr />
+        <p><strong>Weight:</strong> {{ pokemonData.weight }}</p>
+        <hr />
+        <p><strong>Types:</strong> {{ pokemonData.types.map((type) => type.type.name).join(", ") }}</p>
+        <hr />
+        <div class="pokemon-footer">
+          <div class="share">
+            <button class="share-button" @click="copyTextToClipboard(textToCopy)">Share to my friends</button>
+          </div>
+          <div class="stars">
+            <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
+              alt="Add to Favorites" />
+            <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
+              alt="Remove from Favorites" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -60,7 +67,6 @@ const copyTextToClipboard = (text) => {
   const tempInput = document.createElement('textarea');
   tempInput.value = text;
   document.body.appendChild(tempInput);
-
   tempInput.select();
   document.execCommand('copy');
   document.body.removeChild(tempInput);
@@ -91,25 +97,48 @@ onMounted(async () => {
   background-image: url("../assets/bg-pokemon.png");
   background-size: cover;
   z-index: 1;
+  height: 47%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.poke {
+  height: 79%;
 }
 
 .pokemon-info {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: white;
-  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  z-index: 2;
   text-align: center;
+  width: 44%;
+  height: 80%;
+}
+
+.poke-contain {
+  padding: 17px;
+  margin: 0px auto;
+  width: 92%;
+  display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+
+hr {
+  border: 0.5px solid #ccc;
+  width: 100%;
+}
+
+.poke-contain p {
+  margin-top: 0;
+  margin-bottom: 0rem;
+  font-family: 'Lato', sans-serif;
 }
 
 .close-button {
   position: absolute;
-  top: 10px;
   right: 10px;
   border: none;
   border-radius: 5px;
@@ -117,10 +146,41 @@ onMounted(async () => {
   cursor: pointer;
   font-weight: bold;
   z-index: 3;
+  font-size: 25px;
 }
 
 .star {
   width: 50px;
   ;
+}
+
+.pokemon-footer {
+  display: flex;
+  justify-content: space-between;
+  /* Esto separará los elementos al máximo */
+  align-items: center;
+  /* Esto alinea verticalmente los elementos al centro */
+}
+
+.share-button {
+  border-radius: 20px;
+  /* padding: 7px; */
+  border: none;
+  background-color: #f22539;
+  color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  width: Hug (195px);
+  height: Hug (44px);
+  top: 442px;
+  left: 30px;
+  padding: 11px, 20px, 11px, 20px;
+  border-radius: 60px;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 10px;
+  /* Espacio entre las estrellas */
 }
 </style>

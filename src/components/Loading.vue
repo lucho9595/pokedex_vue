@@ -8,7 +8,6 @@
 .container {
   background-color: #f9f9f9;
   min-height: 100vh;
-  /* Asegura que ocupe todo el alto de la ventana */
 }
 
 img {

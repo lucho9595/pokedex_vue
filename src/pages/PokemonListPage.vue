@@ -1,5 +1,5 @@
 <template>
-  <div v-if="filteredPokemonList.length === 0">
+  <div v-if="isLoading" class="container">
     <Loading />
   </div>
   <div v-else class="container">
@@ -14,7 +14,7 @@
     </div>
     <ul class="pokemon-list">
       <li v-for="pokemon in filteredPokemonList" :key="pokemon.name" class="pokemon-item">
-        <div @click="openPokemon(pokemon)">
+        <div class="poke" @click="openPokemon(pokemon)">
           {{ capitalizeFirstLetter(pokemon.name) }}
         </div>
         <img class="star" v-if="!isFavorite(pokemon)" @click="changeFavorite(pokemon)" src="@/assets/favd.png"
@@ -27,27 +27,15 @@
       <PokemonDetail :pokemonSelect="selectedPokemon" @close="closePokemon" />
     </div>
     <div class="buttons-container">
-      <div class="list">
-        <i class="bi bi-list-ul" :style="{
-          backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF',
-        }"></i>
-        <button class="btn text-white text" @click="selectTab('all')" :style="{
-          backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF',
-        }">
-          All
-        </button>
+      <div class="list" @click="selectTab('all')"
+        :style="{ backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF' }">
+        <i class="bi bi-list-ul"></i>
+        <button class="btn text-white text">All</button>
       </div>
-      <div class="favs">
-        <i class="bi bi-star-fill" :style="{
-          backgroundColor:
-            selectedTab === 'favorites' ? '#F22539' : '#BFBFBF',
-        }"></i>
-        <button class="btn text-white text" @click="selectTab('favorites')" :style="{
-          backgroundColor:
-            selectedTab === 'favorites' ? '#F22539' : '#BFBFBF',
-        }">
-          Favorites
-        </button>
+      <div class="favs" @click="selectTab('favorites')"
+        :style="{ backgroundColor: selectedTab === 'favorites' ? '#F22539' : '#BFBFBF' }">
+        <i class="bi bi-star-fill"></i>
+        <button class="btn text-white text">Favorites</button>
       </div>
     </div>
   </div>
@@ -67,7 +55,7 @@ const filteredPokemonList = ref([]); // Variable reactiva para la lista filtrada
 const showNotFoundMessage = ref(false); // Variable reactiva para mostrar el mensaje
 const isPopupOpen = ref(false); // Variable para controlar la visibilidad del popup
 const selectedPokemon = ref(null); // Variable para almacenar los datos del Pokémon seleccionado
-
+const isLoading = ref(false);
 const store = useStore(); // Accede al store de Vuex
 
 const isFavorite = (pokemon) => {
@@ -114,23 +102,21 @@ const closePokemon = () => {
   isPopupOpen.value = false;
 };
 
-// Escucha cambios en selectedTab
 watch(selectedTab, (newTab) => {
   if (newTab === 'favorites') {
-    // Si se selecciona 'favorites', filtra la lista para mostrar solo los favoritos
     filteredPokemonList.value = pokemonList.value.filter((pokemon) =>
       isFavorite(pokemon)
     );
   } else {
-    // Si se selecciona otra pestaña, muestra todos los Pokémon
     filteredPokemonList.value = pokemonList.value;
   }
 });
 
 onMounted(async () => {
+  isLoading.value = true;
   const allPokemon = await getData();
   pokemonList.value = allPokemon;
-
+  isLoading.value = false
   if (selectedTab.value === 'favorites') {
     filteredPokemonList.value = allPokemon.filter((pokemon) =>
       isFavorite(pokemon)
@@ -149,6 +135,7 @@ onMounted(async () => {
   min-height: 100vh;
   padding: 20px;
   text-align: center;
+  width: 70vw;
 }
 
 /*--input--*/
@@ -187,6 +174,7 @@ input.form-control:focus {
   list-style: none;
   padding: 0;
   width: 60%;
+  width: 70vw;
 }
 
 .pokemon-item {
@@ -199,12 +187,18 @@ input.form-control:focus {
   color: #353535;
   font-size: 22px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.poke {
+  cursor: pointer;
 }
 
 /*--Buttons--*/
 .buttons-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   position: fixed;
   bottom: 0;
@@ -213,6 +207,7 @@ input.form-control:focus {
   background-color: white;
   padding: 10px;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
 }
 
 .back {
@@ -227,17 +222,31 @@ input.form-control:focus {
 }
 
 .text {
-  font-family: "Montserrat", sans-serif;
-  width: 100px;
-  /* Ajusta el ancho según sea necesario */
+  font-family: 'Lato', sans-serif;
 }
 
 .list,
 .favs {
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  border-radius: 20px;
+  margin: 0px 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
   align-items: center;
-  /* Centra los elementos verticalmente */
+  justify-content: center;
+}
+
+.list button,
+.favs button {
+  padding: 5px 5px;
+}
+
+.list button i,
+.favs button i {
+  margin-right: 10px;
 }
 
 /*Iconos*/
@@ -253,17 +262,7 @@ input.form-control:focus {
 }
 
 .star {
-  width: 50px;
-}
-
-/* Media query para pantallas más pequeñas */
-@media screen and (max-width: 768px) {
-  .search-container {
-    width: 100%;
-  }
-
-  .pokemon-list {
-    width: 100%;
-  }
+  width: 80px;
+  cursor: pointer;
 }
 </style>
