@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container d-flex flex-column align-items-center justify-content-center vh-100">
     <img src="../assets/landingpage.png" alt="logo.png" class="logo" />
     <h1 class="title">Welcome to Pokédex</h1>
     <p class="subtitle">
@@ -14,42 +14,38 @@
 
 <style scoped>
 .title {
-  font-family: "Secular One", sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #353535;
   font-size: 26px;
   font-weight: 700;
   line-height: 31px;
   letter-spacing: 0em;
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .subtitle {
-  font-family: "Secular One", sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #5e5e5e;
   font-size: 18px;
   font-weight: 500;
-  line-height: 27px;
-  letter-spacing: 0em;
-  text-align: center;
+  margin-bottom: 28px;
 }
 
 .logo {
   width: 325px;
   height: 288px;
-  top: 70px;
-  left: 25px;
+  margin-bottom: 90px;
 }
 
 .btn {
-  width: Hug (131px);
-  height: Hug (44px);
-  top: 611px;
-  left: 122px;
-  padding: 11px, 20px, 11px, 20px;
+  font-family: 'Lato', sans-serif;
+  width: 131px;
   border-radius: 60px;
-  gap: 10px;
   background-color: #f22539;
   color: #ffffff;
+  margin-top: 10px;
+  font-size: 18px;
 }
 
 .btn:hover {
