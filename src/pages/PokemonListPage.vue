@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="filteredPokemonList.length === 0">
+    <Loading />
+  </div>
+  <div v-else class="container">
     <div class="search-container">
       <i class="bi bi-search"></i>
       <input type="text" placeholder="Search" class="form-control" v-model="searchTerm" @input="handleSearch" />
@@ -19,7 +22,7 @@
         <img class="star" v-else @click="changeFavorite(pokemon)" src="@/assets/fava.png" alt="Remove from Favorites" />
       </li>
     </ul>
-     <!-- Pop-up para mostrar los detalles del Pokémon -->
+    <!-- Pop-up para mostrar los detalles del Pokémon -->
     <div v-if="isPopupOpen">
       <PokemonDetail :pokemonSelect="selectedPokemon" @close="closePokemon" />
     </div>
@@ -52,10 +55,10 @@
 
 <script setup>
 import { getData } from "@/api/pokeapi";
-import { ref, onMounted, computed, watch  } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import PokemonDetail from "../components/PokeDetail.vue";
 import { useStore } from 'vuex';
-
+import Loading from "../components/Loading.vue";
 
 const pokemonList = ref([]); //Se almacenan todos los pokemons
 const selectedTab = ref("all"); // Inicialmente, se selecciona "All"
@@ -128,7 +131,7 @@ onMounted(async () => {
   const allPokemon = await getData();
   pokemonList.value = allPokemon;
 
-if (selectedTab.value === 'favorites') {
+  if (selectedTab.value === 'favorites') {
     filteredPokemonList.value = allPokemon.filter((pokemon) =>
       isFavorite(pokemon)
     );
@@ -249,7 +252,7 @@ input.form-control:focus {
   color: white;
 }
 
-.star{
+.star {
   width: 50px;
 }
 
