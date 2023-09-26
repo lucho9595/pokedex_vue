@@ -1,5 +1,7 @@
 <template>
-  <div class="container d-flex flex-column align-items-center justify-content-center vh-100">
+  <div
+    class="container d-flex flex-column align-items-center justify-content-center vh-100"
+  >
     <img src="../assets/loading.png" alt="loading" />
   </div>
 </template>

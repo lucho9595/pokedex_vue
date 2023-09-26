@@ -1,29 +1,54 @@
 <template>
   <div class="pokemon-detail">
     <div class="pokemon-info" v-if="pokemonData">
-      <i class="bi bi-x-circle-fill close-button text-white bi-ul" @click="closePopup"></i>
       <div class="pokemon-image">
-        <img class="poke" :src="pokemonData.sprites['other']['official-artwork']['front_default']
-          " :alt="pokemonData.name" />
+        <i
+          class="bi bi-x-circle-fill close-button text-white bi-ul"
+          @click="closePopup"
+        ></i>
+        <img
+          class="poke"
+          :src="
+            pokemonData.sprites['other']['official-artwork']['front_default']
+          "
+          :alt="pokemonData.name"
+        />
       </div>
       <div class="poke-contain">
-        <p><strong>Name:</strong> {{ pokemonData.name }}</p>
+        <p>
+          <strong>Name:</strong> {{ capitalizeFirstLetter(pokemonData.name) }}
+        </p>
         <hr />
         <p><strong>Height:</strong> {{ pokemonData.height }}</p>
         <hr />
         <p><strong>Weight:</strong> {{ pokemonData.weight }}</p>
         <hr />
-        <p><strong>Types:</strong> {{ pokemonData.types.map((type) => type.type.name).join(", ") }}</p>
+        <p><strong>Types:</strong> {{ capitalizeTypes(pokemonData.types) }}</p>
         <hr />
         <div class="pokemon-footer">
           <div class="share">
-            <button class="share-button" @click="copyTextToClipboard(textToCopy)">Share to my friends</button>
+            <button
+              class="share-button"
+              @click="copyTextToClipboard(textToCopy)"
+            >
+              Share to my friends
+            </button>
           </div>
           <div class="stars">
-            <img class="star" v-if="!isFavorite(pokemonData)" @click="changeFavorite(pokemonData)" src="@/assets/favd.png"
-              alt="Add to Favorites" />
-            <img class="star" v-else @click="changeFavorite(pokemonData)" src="@/assets/fava.png"
-              alt="Remove from Favorites" />
+            <img
+              class="star"
+              v-if="!isFavorite(pokemonData)"
+              @click="changeFavorite(pokemonData)"
+              src="@/assets/favd.png"
+              alt="Add to Favorites"
+            />
+            <img
+              class="star"
+              v-else
+              @click="changeFavorite(pokemonData)"
+              src="@/assets/fava.png"
+              alt="Remove from Favorites"
+            />
           </div>
         </div>
       </div>
@@ -34,7 +59,7 @@
 <script setup>
 import { ref, onMounted, getCurrentInstance, computed } from "vue";
 import { getName } from "@/api/pokeapi";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 
 const props = defineProps({ pokemonSelect: String });
 const instance = getCurrentInstance();
@@ -45,6 +70,14 @@ const closePopup = () => {
   instance.emit("close");
 };
 
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const capitalizeTypes = (types) => {
+  return types.map((type) => capitalizeFirstLetter(type.type.name)).join(", ");
+};
+
 //verificar los cambios en el estado de favoritos
 const isFavorite = (pokemon) => {
   const favoritePokemon = computed(() => store.getters.getFavoritePokemon);
@@ -53,25 +86,29 @@ const isFavorite = (pokemon) => {
 //logica para almacenar favoritos
 const changeFavorite = (pokemon) => {
   if (!isFavorite(pokemon)) {
-    store.dispatch('addPokemonToFavorites', pokemon);
+    store.dispatch("addPokemonToFavorites", pokemon);
   } else {
-    store.dispatch('removePokemonFromFavorites', pokemon);
+    store.dispatch("removePokemonFromFavorites", pokemon);
   }
 };
 //guardar en un componente la info
 const textToCopy = computed(() => {
-  return `${pokemonData.value.name}, Height: ${pokemonData.value.height}, Weight: ${pokemonData.value.weight}, Types: ${pokemonData.value.types.map(type => type.type.name).join(', ')}`;
+  return `${pokemonData.value.name}, Height: ${
+    pokemonData.value.height
+  }, Weight: ${pokemonData.value.weight}, Types: ${pokemonData.value.types
+    .map((type) => type.type.name)
+    .join(", ")}`;
 });
 //logica para copiado de texto
 const copyTextToClipboard = (text) => {
-  const tempInput = document.createElement('textarea');
+  const tempInput = document.createElement("textarea");
   tempInput.value = text;
   document.body.appendChild(tempInput);
   tempInput.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(tempInput);
 
-  alert('Texto copiado al portapapeles');
+  alert("Texto copiado al portapapeles");
 };
 //montar el detalle
 onMounted(async () => {
@@ -96,31 +133,33 @@ onMounted(async () => {
 .pokemon-image {
   background-image: url("../assets/bg-pokemon.png");
   background-size: cover;
-  z-index: 1;
-  height: 47%;
-  width: 100%;
+  height: 49%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.poke {
-  height: 79%;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .pokemon-info {
   position: relative;
   background-color: white;
   border-radius: 10px;
-  text-align: center;
-  width: 44%;
-  height: 80%;
+  width: 90%;
+  max-height: 600px;
+  height: 79%;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.poke {
+  height: 73%;
 }
 
 .poke-contain {
-  padding: 17px;
-  margin: 0px auto;
-  width: 92%;
+  padding: 11px 10px;
+  margin: 0 auto;
+  width: 88%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -134,12 +173,13 @@ hr {
 .poke-contain p {
   margin-top: 0;
   margin-bottom: 0rem;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .close-button {
   position: absolute;
   right: 10px;
+  top: 10px;
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
@@ -149,38 +189,30 @@ hr {
   font-size: 25px;
 }
 
-.star {
-  width: 50px;
-  ;
-}
-
 .pokemon-footer {
   display: flex;
-  justify-content: space-between;
-  /* Esto separará los elementos al máximo */
   align-items: center;
-  /* Esto alinea verticalmente los elementos al centro */
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .share-button {
-  border-radius: 20px;
-  /* padding: 7px; */
   border: none;
   background-color: #f22539;
   color: #ffffff;
-  font-family: 'Lato', sans-serif;
-  width: Hug (195px);
-  height: Hug (44px);
-  top: 442px;
-  left: 30px;
-  padding: 11px, 20px, 11px, 20px;
+  font-family: "Lato", sans-serif;
+  width: 186px;
+  height: 36px;
   border-radius: 60px;
-  gap: 10px;
 }
 
-.stars {
+.share {
+  width: 100%;
   display: flex;
-  gap: 10px;
-  /* Espacio entre las estrellas */
+}
+
+.star {
+  width: 59px;
 }
 </style>

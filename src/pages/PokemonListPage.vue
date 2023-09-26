@@ -5,7 +5,13 @@
   <div v-else class="container">
     <div class="search-container">
       <i class="bi bi-search"></i>
-      <input type="text" placeholder="Search" class="form-control" v-model="searchTerm" @input="handleSearch" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="form-control"
+        v-model="searchTerm"
+        @input="handleSearch"
+      />
     </div>
     <div v-if="showNotFoundMessage">
       <h3>Uh-oh!</h3>
@@ -13,27 +19,52 @@
       <button class="btn back" @click="resetSearch">Go back home</button>
     </div>
     <ul class="pokemon-list">
-      <li v-for="pokemon in filteredPokemonList" :key="pokemon.name" class="pokemon-item">
+      <li
+        v-for="pokemon in filteredPokemonList"
+        :key="pokemon.name"
+        class="pokemon-item"
+      >
         <div class="poke" @click="openPokemon(pokemon)">
           {{ capitalizeFirstLetter(pokemon.name) }}
         </div>
-        <img class="star" v-if="!isFavorite(pokemon)" @click="changeFavorite(pokemon)" src="@/assets/favd.png"
-          alt="Add to Favorites" />
-        <img class="star" v-else @click="changeFavorite(pokemon)" src="@/assets/fava.png" alt="Remove from Favorites" />
+        <img
+          class="star"
+          v-if="!isFavorite(pokemon)"
+          @click="changeFavorite(pokemon)"
+          src="@/assets/favd.png"
+          alt="Add to Favorites"
+        />
+        <img
+          class="star"
+          v-else
+          @click="changeFavorite(pokemon)"
+          src="@/assets/fava.png"
+          alt="Remove from Favorites"
+        />
       </li>
     </ul>
     <!-- Pop-up para mostrar los detalles del Pokémon -->
     <div v-if="isPopupOpen">
       <PokemonDetail :pokemonSelect="selectedPokemon" @close="closePokemon" />
     </div>
-    <div class="buttons-container">
-      <div class="list" @click="selectTab('all')"
-        :style="{ backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF' }">
+    <div class="buttons-container" v-if="!showNotFoundMessage">
+      <div
+        class="list"
+        @click="selectTab('all')"
+        :style="{
+          backgroundColor: selectedTab === 'all' ? '#F22539' : '#BFBFBF',
+        }"
+      >
         <i class="bi bi-list-ul"></i>
         <button class="btn text-white text">All</button>
       </div>
-      <div class="favs" @click="selectTab('favorites')"
-        :style="{ backgroundColor: selectedTab === 'favorites' ? '#F22539' : '#BFBFBF' }">
+      <div
+        class="favs"
+        @click="selectTab('favorites')"
+        :style="{
+          backgroundColor: selectedTab === 'favorites' ? '#F22539' : '#BFBFBF',
+        }"
+      >
         <i class="bi bi-star-fill"></i>
         <button class="btn text-white text">Favorites</button>
       </div>
@@ -41,12 +72,11 @@
   </div>
 </template>
 
-
 <script setup>
 import { getData } from "@/api/pokeapi";
 import { ref, onMounted, computed, watch } from "vue";
 import PokemonDetail from "../components/PokeDetail.vue";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 import Loading from "../components/Loading.vue";
 
 const pokemonList = ref([]); //Se almacenan todos los pokemons
@@ -66,9 +96,9 @@ const isFavorite = (pokemon) => {
 
 const changeFavorite = (pokemon) => {
   if (!isFavorite(pokemon)) {
-    store.dispatch('addPokemonToFavorites', pokemon);
+    store.dispatch("addPokemonToFavorites", pokemon);
   } else {
-    store.dispatch('removePokemonFromFavorites', pokemon);
+    store.dispatch("removePokemonFromFavorites", pokemon);
   }
 };
 
@@ -104,7 +134,7 @@ const closePokemon = () => {
 };
 
 watch(selectedTab, (newTab) => {
-  if (newTab === 'favorites') {
+  if (newTab === "favorites") {
     filteredPokemonList.value = pokemonList.value.filter((pokemon) =>
       isFavorite(pokemon)
     );
@@ -117,8 +147,8 @@ onMounted(async () => {
   isLoading.value = true;
   const allPokemon = await getData();
   pokemonList.value = allPokemon;
-  isLoading.value = false
-  if (selectedTab.value === 'favorites') {
+  isLoading.value = false;
+  if (selectedTab.value === "favorites") {
     filteredPokemonList.value = allPokemon.filter((pokemon) =>
       isFavorite(pokemon)
     );
@@ -226,7 +256,7 @@ input.form-control:focus {
 }
 
 .text {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .list,

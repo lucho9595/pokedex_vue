@@ -1,5 +1,7 @@
 <template>
-  <div class="container d-flex flex-column align-items-center justify-content-center vh-100">
+  <div
+    class="container d-flex flex-column align-items-center justify-content-center vh-100"
+  >
     <img src="../assets/landingpage.png" alt="logo.png" class="logo" />
     <h1 class="title">Welcome to Pokédex</h1>
     <p class="subtitle">
@@ -14,7 +16,7 @@
 
 <style scoped>
 .title {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   color: #353535;
   font-size: 26px;
   font-weight: 700;
@@ -25,7 +27,7 @@
 }
 
 .subtitle {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   color: #5e5e5e;
   font-size: 18px;
   font-weight: 500;
@@ -39,7 +41,7 @@
 }
 
 .btn {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   width: 131px;
   border-radius: 60px;
   background-color: #f22539;
